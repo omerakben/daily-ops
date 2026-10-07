@@ -66,7 +66,7 @@ class RendererTests(unittest.TestCase):
         report["deferred"] = [{"task": {"id": "t-002", "title": "Read", "minutes": 60}, "reason": "Does not fit the remaining 15 minutes"}]
         report["blocked"] = [{"task": {"id": "t-003", "title": "Publish draft", "blocked_by": ["t-002"]}, "reason": "Waiting for review"}]
         output = render_plan(report)
-        for expected in ("t-002", "t-003", "Does not fit the remaining 15 minutes", "Waiting for review", "Waiting for t-002"):
+        for expected in ("t-002", "t-003", "Does not fit the remaining 15 minutes", "Waiting for review", "Waiting reason: t-002"):
             self.assertIn(expected, output)
 
     def test_review_labels_completed_minutes_as_estimates(self):
@@ -96,8 +96,15 @@ class RendererTests(unittest.TestCase):
 
     def test_markdown_preserves_waiting_reason_as_one_string(self):
         output = render_markdown({"revision": 1, "tasks": [{"id": "T0001", "title": "Prepare handover", "blocked_by": "Waiting for client approval"}]})
-        self.assertIn("Waiting for: Waiting for client approval", output)
+        self.assertIn("Waiting reason: Waiting for client approval", output)
         self.assertNotIn("W, a, i", output)
+
+    def test_waiting_reason_does_not_duplicate_its_first_words(self):
+        report = self.report()
+        report["blocked"] = [{"task": {"id": "T0003", "title": "Confirm date", "blocked_by": "Waiting for the venue reply"}, "reason": "Requires input"}]
+        output = render_plan(report)
+        self.assertIn("Waiting reason: Waiting for the venue reply", output)
+        self.assertNotIn("Waiting for Waiting for", output)
 
 
 if __name__ == "__main__":

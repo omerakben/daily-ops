@@ -61,7 +61,7 @@ def _task_html(entry, selected=False):
     if blocked_by:
         if not isinstance(blocked_by, list):
             blocked_by = [blocked_by]
-        parts.append("Waiting for " + ", ".join(_e(item) for item in blocked_by))
+        parts.append("Waiting reason: " + ", ".join(_e(item) for item in blocked_by))
     content = (
         f'<li class="task"><div class="meta">{" · ".join(parts)}</div>'
         f'<h3>{_e(task.get("title", "Untitled task"))}</h3>'
@@ -81,7 +81,7 @@ def _task_html(entry, selected=False):
 def _group(title, entries, empty, selected=False):
     entries = entries or []
     marker = " selected" if selected else ""
-    content = f'<section class="group{marker}"><h2>{_e(title)}<span class="count">{len(entries)}</span></h2>'
+    content = f'<section class="group{marker}"><h2>{_e(title)} <span class="count">{len(entries)}</span></h2>'
     if entries:
         content += '<ul class="task-list">' + "".join(_task_html(item, selected) for item in entries) + "</ul>"
     else:
@@ -187,7 +187,7 @@ def render_markdown(state):
                 details.append(f'{label}: {_md(task[key])}')
         lines.append("  " + " · ".join(details))
         if task.get("blocked_by"):
-            lines.append("  Waiting for: " + _md(task["blocked_by"]))
+            lines.append("  Waiting reason: " + _md(task["blocked_by"]))
         if task.get("notes"):
             lines.append("  Notes: " + _md(task["notes"]))
         lines.append("")

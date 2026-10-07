@@ -31,6 +31,15 @@ The installer creates `daily-ops` inside that directory. It refuses to replace a
 
 The release's `daily-ops-1.0.0-skill.zip` also contains the ready-to-copy `daily-ops/` skill directory. Copy the whole directory, including scripts and references, into the selected skills directory.
 
+Codex CLI also supports native plugin installation. From the source checkout, the following registration and installation were verified with Codex CLI 0.159.3:
+
+```sh
+codex plugin marketplace add .
+codex plugin add daily-ops@daily-ops-community
+```
+
+Use this route instead of a second standalone skill copy. To remove this installation later, run `codex plugin remove daily-ops@daily-ops-community`, then `codex plugin marketplace remove daily-ops-community` if you no longer want the catalog registered.
+
 ## Claude Code
 
 For a session using a local checkout:
