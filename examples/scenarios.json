@@ -1,0 +1,63 @@
+{
+  "date": "2026-10-07",
+  "scenarios": [
+    {
+      "id": "student",
+      "description": "A short study window with a deadline and more work than fits.",
+      "budget": 80,
+      "tasks": [
+        {"title": "Finish lab write-up", "minutes": 45, "priority": "high", "due": "2026-10-07"},
+        {"title": "Read assigned chapter", "minutes": 30},
+        {"title": "Make club poster", "minutes": 30, "priority": "low"},
+        {"title": "Prepare for exam", "minutes": 120}
+      ],
+      "selected": ["T0001", "T0002"],
+      "planned_minutes": 75,
+      "blocked": []
+    },
+    {
+      "id": "freelancer",
+      "description": "Two urgent deliverables, administration, and a waiting dependency.",
+      "budget": 120,
+      "tasks": [
+        {"title": "Send overdue invoice", "minutes": 20, "due": "2026-10-06"},
+        {"title": "Draft project proposal", "minutes": 60, "due": "2026-10-07"},
+        {"title": "Reconcile bookkeeping notes", "minutes": 25},
+        {"title": "Refresh portfolio", "minutes": 90},
+        {"title": "Confirm project scope", "minutes": 45, "blocked_by": "Waiting for feedback"}
+      ],
+      "selected": ["T0001", "T0002", "T0003"],
+      "planned_minutes": 105,
+      "blocked": ["T0005"]
+    },
+    {
+      "id": "caregiver",
+      "description": "An interruption leaves only enough time for the urgent form.",
+      "budget": 40,
+      "tasks": [
+        {"title": "Complete school form", "minutes": 15, "due": "2026-10-07"},
+        {"title": "Buy groceries", "minutes": 25},
+        {"title": "Sort hallway closet", "minutes": 60}
+      ],
+      "selected": ["T0001", "T0002"],
+      "planned_minutes": 40,
+      "blocked": [],
+      "interruption_budget": 15,
+      "interruption_selected": ["T0001"]
+    },
+    {
+      "id": "contributor",
+      "description": "A review and documentation fit, while administration and blocked analysis remain visible.",
+      "budget": 100,
+      "tasks": [
+        {"title": "Review proposed change", "minutes": 45, "due": "2026-10-07"},
+        {"title": "Write setup guide", "minutes": 45},
+        {"title": "Organize project notes", "minutes": 15},
+        {"title": "Analyze survey results", "minutes": 120, "blocked_by": "Waiting for the source data"}
+      ],
+      "selected": ["T0001", "T0002"],
+      "planned_minutes": 90,
+      "blocked": ["T0004"]
+    }
+  ]
+}

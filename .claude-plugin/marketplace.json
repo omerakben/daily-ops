@@ -1,0 +1,8 @@
+{
+  "name": "daily-ops-community",
+  "description": "A community planning assistant with portable skills and user-owned task state.",
+  "owner": {"name": "Omer Akben"},
+  "plugins": [
+    {"name": "daily-ops", "source": "./", "description": "A practical daily planning assistant with user-owned state."}
+  ]
+}

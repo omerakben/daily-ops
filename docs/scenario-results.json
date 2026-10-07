@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "release": "1.0.0",
+  "fixture_date": "2026-10-07",
+  "evidence_type": "deterministic fictional acceptance scenarios",
+  "claims": [
+    "Plans respect supplied task capacity",
+    "Unfinished work remains visible",
+    "Planning preserves state",
+    "Explicit completion persists across sessions"
+  ],
+  "not_measured": [
+    "time saved",
+    "stress reduction",
+    "human adoption",
+    "native host skill discovery"
+  ],
+  "results": [
+    {
+      "scenario": "student",
+      "status": "passed",
+      "input_tasks": 4,
+      "budget_minutes": 80,
+      "planned_minutes": 75,
+      "selected": [
+        "T0001",
+        "T0002"
+      ],
+      "waiting": [],
+      "visible_unselected": 2,
+      "state_unchanged_by_planning": true,
+      "resume_verified": true,
+      "interruption_tested": false
+    },
+    {
+      "scenario": "freelancer",
+      "status": "passed",
+      "input_tasks": 5,
+      "budget_minutes": 120,
+      "planned_minutes": 105,
+      "selected": [
+        "T0001",
+        "T0002",
+        "T0003"
+      ],
+      "waiting": [
+        "T0005"
+      ],
+      "visible_unselected": 2,
+      "state_unchanged_by_planning": true,
+      "resume_verified": true,
+      "interruption_tested": false
+    },
+    {
+      "scenario": "caregiver",
+      "status": "passed",
+      "input_tasks": 3,
+      "budget_minutes": 40,
+      "planned_minutes": 40,
+      "selected": [
+        "T0001",
+        "T0002"
+      ],
+      "waiting": [],
+      "visible_unselected": 1,
+      "state_unchanged_by_planning": true,
+      "resume_verified": true,
+      "interruption_tested": true
+    },
+    {
+      "scenario": "contributor",
+      "status": "passed",
+      "input_tasks": 4,
+      "budget_minutes": 100,
+      "planned_minutes": 90,
+      "selected": [
+        "T0001",
+        "T0002"
+      ],
+      "waiting": [
+        "T0004"
+      ],
+      "visible_unselected": 2,
+      "state_unchanged_by_planning": true,
+      "resume_verified": true,
+      "interruption_tested": false
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Daily Ops"
+  short_description: "Plan work that fits your available time"
+  default_prompt: "Use $daily-ops to help me choose a realistic plan for today."

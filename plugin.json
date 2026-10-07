@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "daily-ops",
+  "version": "1.0.0",
+  "description": "Plan work that fits your time, start a task, and retain decisions in a portable local workspace.",
+  "author": {"name": "Omer Akben"},
+  "homepage": "https://github.com/omerakben/daily-ops",
+  "repository": "https://github.com/omerakben/daily-ops",
+  "license": "MIT",
+  "keywords": ["planning", "tasks", "productivity", "agent-skills"]
+}

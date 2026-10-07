@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Make a realistic daily plan from your own tasks. A local, open-source planning tool with portable skills for AI assistants.">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Daily Ops — A plan for the time you have</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='11' fill='%23206658'/%3E%3Cpath d='M12 11h6a9 9 0 0 1 0 18h-6z' fill='none' stroke='%23fff' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="wordmark" href="#top" aria-label="Daily Ops home"><span class="brand-mark" aria-hidden="true">d.</span>daily ops</a>
+      <nav aria-label="Main navigation">
+        <a href="#demo">Try it</a>
+        <a href="#start">Get started</a>
+        <a class="nav-source" href="https://github.com/omerakben/daily-ops">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Open source · Local first</p>
+          <h1 id="hero-title">A plan for the<br>time you <em>have.</em></h1>
+          <p class="hero-description">Turn a long task list into a manageable day. See what fits, keep the rest visible, and pick up where you left off.</p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#demo">Try a day <span aria-hidden="true">↓</span></a>
+            <a class="text-link" href="#start">Make it yours <span aria-hidden="true">↗</span></a>
+          </div>
+          <p class="hero-note">No account or API key for the local tool.<br>Use it on its own, or with your AI assistant.</p>
+        </div>
+        <aside class="preview" aria-label="Fictional student plan preview">
+          <div class="preview-top"><span class="eyebrow">A little room to breathe</span><span class="example-badge">Example</span></div>
+          <p class="preview-heading">Today's shortlist</p>
+          <div class="preview-capacity"><strong>75<span> min</span></strong><span>planned<br>of 80 available</span></div>
+          <div class="preview-track" aria-hidden="true"><span></span></div>
+          <ul class="preview-list">
+            <li><span class="task-number">01</span><span>Finish lab write-up<small>Due today</small></span><span class="preview-minutes">45 min</span></li>
+            <li><span class="task-number">02</span><span>Read the next chapter<small>Ready when you are</small></span><span class="preview-minutes">30 min</span></li>
+          </ul>
+          <p class="preview-footer"><span aria-hidden="true">↳</span> Two more tasks stay on the list for later.</p>
+        </aside>
+      </section>
+
+      <section class="principles" aria-label="What Daily Ops does">
+        <article><span class="section-number">01 / PLAN</span><h2>Make the tradeoffs visible.</h2><p>Give your tasks estimates and choose your time budget. Get a clear shortlist, with reasons for what stays out.</p></article>
+        <article><span class="section-number">02 / ADAPT</span><h2>Leave room for real life.</h2><p>Plans change. Reduce your available time, update a task, and plan again. Unfinished work stays intact.</p></article>
+        <article><span class="section-number">03 / KEEP</span><h2>Take your context with you.</h2><p>Your tasks live in portable files. Resume in a new session, switch assistants, or work without one.</p></article>
+      </section>
+
+      <section class="demo-section" id="demo" aria-labelledby="demo-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">A working example</p><h2 id="demo-title">What fits your day?</h2></div>
+          <p>Pick a fictional routine. Change the minutes.<br> Watch the plan make the tradeoffs explicit.</p>
+        </div>
+        <div class="demo">
+          <fieldset class="scenario-fieldset">
+            <legend class="sr-only">Choose a fictional routine</legend>
+            <div class="scenario-buttons">
+              <button type="button" data-scenario="student" aria-pressed="true" disabled>Student</button>
+              <button type="button" data-scenario="freelancer" aria-pressed="false" disabled>Freelancer</button>
+              <button type="button" data-scenario="caregiver" aria-pressed="false" disabled>Caregiver</button>
+              <button type="button" data-scenario="contributor" aria-pressed="false" disabled>Team contributor</button>
+            </div>
+            <span class="demo-label">Fictional data · In your browser</span>
+          </fieldset>
+          <noscript><p class="no-script">The interactive demo needs JavaScript. The example above shows a 75-minute plan within an 80-minute task budget. The local Python tool works independently of this page.</p></noscript>
+          <div class="demo-body">
+            <form class="demo-controls" id="plan-controls">
+              <p class="control-kicker">Your day, on your terms</p>
+              <h3 id="scenario-title">Between classes</h3>
+              <p class="scenario-description" id="scenario-description">A lab deadline, some reading, and more good intentions than minutes.</p>
+              <fieldset id="time-inputs" disabled>
+                <legend class="sr-only">Time budget</legend>
+                <label class="input-label" for="available">Available time <span>minutes</span></label>
+                <input id="available" name="available" type="number" min="0" max="1440" step="1" value="100" inputmode="numeric" aria-describedby="available-help budget-error">
+                <p class="input-help" id="available-help">After classes, meetings, and other fixed commitments.</p>
+                <label class="input-label" for="reserve">Keep in reserve <span>minutes</span></label>
+                <input id="reserve" name="reserve" type="number" min="0" max="1440" step="1" value="20" inputmode="numeric" aria-describedby="reserve-help budget-error">
+                <p class="input-help" id="reserve-help">Room for a break or an interruption.</p>
+                <p class="form-error" id="budget-error" role="alert" hidden></p>
+              </fieldset>
+              <div class="capacity-note"><span>Task budget</span><strong id="capacity">80 min</strong></div>
+              <button type="button" id="reset-demo" class="reset-button" disabled>Reset this example <span aria-hidden="true">↺</span></button>
+              <p class="small-note">Example date: 7 October 2026.<br>Changes here are not saved.</p>
+            </form>
+            <div class="demo-results" id="demo-results" aria-label="Example plan">
+              <div class="plan-heading"><div><p class="eyebrow">Your shortlist</p><h3><span id="planned-total">75</span><span class="minute-unit"> min planned</span></h3></div><p id="remaining-summary">5 min unallocated</p></div>
+              <div class="budget-bar" id="budget-bar" role="img" aria-label="75 minutes planned, 5 unallocated, 20 reserved"><div class="bar-selected" id="bar-selected"></div><div class="bar-open" id="bar-open"></div><div class="bar-reserve" id="bar-reserve"></div></div>
+              <div class="bar-legend"><span><i class="legend-selected" aria-hidden="true"></i>Selected</span><span><i class="legend-open" aria-hidden="true"></i>Unallocated</span><span><i class="legend-reserve" aria-hidden="true"></i>Reserve</span></div>
+              <div class="conflict-notice" id="conflicts" hidden><h4>Needs a decision</h4><ul id="conflict-list"></ul></div>
+              <div class="result-columns">
+                <section class="selected-group" aria-labelledby="selected-title"><h4 id="selected-title">Start here <span id="selected-count">2</span></h4><ul id="selected-list" class="task-list"><li class="empty-state">Enable JavaScript to explore this plan.</li></ul></section>
+                <div>
+                  <section aria-labelledby="deferred-title"><h4 id="deferred-title">For later <span id="deferred-count">2</span></h4><ul id="deferred-list" class="task-list"></ul></section>
+                  <section class="waiting-group" aria-labelledby="blocked-title"><h4 id="blocked-title">Waiting <span id="blocked-count">0</span></h4><ul id="blocked-list" class="task-list"></ul></section>
+                </div>
+              </div>
+              <p class="plan-rule">How it chooses: due dates first, then priority, then task ID. Whole tasks must fit the remaining budget. Waiting tasks stay visible.</p>
+            </div>
+          </div>
+          <div class="demo-footer"><span class="status-dot" aria-hidden="true"></span><p>This demo runs a fixed planning rule. It does not call an AI model or send your inputs anywhere.</p></div>
+          <p id="plan-announcement" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></p>
+        </div>
+      </section>
+
+      <section class="start-section" id="start" aria-labelledby="start-title">
+        <div class="start-copy"><p class="eyebrow">Small by design</p><h2 id="start-title">Your files.<br>Your assistant.<br>Your next step.</h2><p>The local tool needs Python 3.10 or newer. It has no runtime dependencies and makes no network requests. Start from the source, or follow the guide for your assistant.</p><a class="button button-primary" href="https://github.com/omerakben/daily-ops#readme">Read the setup guide <span aria-hidden="true">↗</span></a></div>
+        <div class="ways-to-use">
+          <article><span class="way-label">01</span><div><h3>Run it locally</h3><p>Capture tasks, plan within a budget, record outcomes, and open a clear HTML report. Your JSON workspace stays on your computer.</p><code>python3 skills/daily-ops/scripts/run.py --help</code></div></article>
+          <article><span class="way-label">02</span><div><h3>Bring an assistant</h3><p>Use the skill with a host that can run Python and access your workspace. Ask it to clarify a task or help you start one. The same local planner handles the arithmetic.</p></div></article>
+          <article><span class="way-label">03</span><div><h3>Use an ordinary chat</h3><p>Share a task snapshot and ask for a proposed plan. Review the changes and save the snapshot yourself. Without a runtime, automatic validation and persistence are unavailable.</p></div></article>
+        </div>
+      </section>
+
+      <section class="questions" aria-labelledby="questions-title">
+        <div><p class="eyebrow">A few honest answers</p><h2 id="questions-title">Know what to expect.</h2></div>
+        <div class="question-list">
+          <details><summary>Is Daily Ops an AI scheduler?</summary><p>The local planner uses a documented rule to order tasks and fit their estimates into a budget. It does not read a calendar or find an optimal schedule. An optional assistant can help turn a vague intention into a clearer task, but its suggestions still need your judgment.</p></details>
+          <details><summary>Does my task list leave my computer?</summary><p>The core does not upload tasks or collect telemetry. If you choose to paste a snapshot into Claude, ChatGPT, or another hosted assistant, you share those contents with that service under its terms. Local storage does not mean local AI inference.</p></details>
+          <details><summary>Will it save me time?</summary><p>That has not been established. The demo shows budget arithmetic and visible tradeoffs. The project tests those behaviors; it does not claim measured productivity gains. Try the workflow and judge whether the decisions it helps you make are worth the effort.</p></details>
+          <details><summary>Can I switch assistants or stop using it?</summary><p>Yes. Task state is stored in a documented JSON format with stable IDs, and reports are ordinary HTML or Markdown. Export and keep your files. The core works without an AI account; AI host access, fees, and capabilities are separate.</p></details>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer"><a class="wordmark" href="#top"><span class="brand-mark" aria-hidden="true">d.</span>daily ops</a><p>A little structure. Room for the rest.</p><div><a href="https://github.com/omerakben/daily-ops">Source</a><a href="https://github.com/omerakben/daily-ops/blob/main/LICENSE">MIT license</a><a href="https://github.com/omerakben/daily-ops/issues">Feedback</a></div></footer>
+  </div>
+</body>
+</html>

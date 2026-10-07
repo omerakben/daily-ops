@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools==80.9.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "daily-ops-assistant"
+version = "1.0.0"
+description = "Make a realistic daily plan from your own tasks, with portable AI skills."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{name = "Omer Akben"}]
+keywords = ["planning", "productivity", "agent-skills", "claude", "codex"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/omerakben/daily-ops"
+Issues = "https://github.com/omerakben/daily-ops/issues"
+
+[project.scripts]
+daily-ops = "daily_ops.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "skills/daily-ops/scripts"}
+
+[tool.setuptools.packages.find]
+where = ["skills/daily-ops/scripts"]
+include = ["daily_ops*"]

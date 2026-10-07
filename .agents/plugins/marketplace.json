@@ -1,0 +1,12 @@
+{
+  "name": "daily-ops-community",
+  "interface": {"displayName": "Daily Ops"},
+  "plugins": [
+    {
+      "name": "daily-ops",
+      "source": {"source": "local", "path": "./"},
+      "policy": {"installation": "AVAILABLE", "authentication": "ON_INSTALL"},
+      "category": "Productivity"
+    }
+  ]
+}
