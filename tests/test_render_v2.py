@@ -367,7 +367,7 @@ class WorksheetBehaviorTests(unittest.TestCase):
         result = subprocess.run(
             ["node", "-e", _WORKSHEET_HARNESS],
             input=json.dumps(dict(runtime=WORKSHEET_JS, report=report, operations=operations)),
-            capture_output=True, text=True, check=True,
+            capture_output=True, text=True, encoding="utf-8", check=True,
         )
         return json.loads(result.stdout)
 
