@@ -30,6 +30,7 @@ jobs:
           python tools/evaluate.py
           python tools/package.py
           python tools/check.py --archives dist
+          python tools/build_examples.py
       - name: Add verified downloads to the site artifact
         run: python -c "from pathlib import Path; import shutil; target = Path('site/downloads'); target.mkdir(parents=True, exist_ok=True); [shutil.copyfile(p, target / p.name) for p in Path('dist').iterdir() if p.suffix == '.zip' or p.name == 'SHA256SUMS']"
       - uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5

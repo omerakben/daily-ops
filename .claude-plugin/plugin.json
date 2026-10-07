@@ -1,6 +1,6 @@
 {
   "name": "daily-ops",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Plan work that fits your time, start a task, and retain your decisions in a portable local workspace.",
   "author": {"name": "Omer Akben"},
   "homepage": "https://github.com/omerakben/daily-ops",

@@ -54,6 +54,9 @@ def validate_repository(root: Path) -> int:
     project = read_public_file(root, "pyproject.toml").decode("utf-8")
     if not re.search(rf'^version = "{re.escape(VERSION)}"$', project, re.MULTILINE):
         raise PackageError("Python package version does not match release version")
+    runtime = read_public_file(root, "skills/daily-ops/scripts/daily_ops/__init__.py").decode("utf-8")
+    if not re.search(rf'^__version__ = "{re.escape(VERSION)}"$', runtime, re.MULTILINE):
+        raise PackageError("Runtime version does not match release version")
     skill_text = read_public_file(root, "skills/daily-ops/SKILL.md").decode("utf-8")
     metadata = frontmatter(skill_text)
     if metadata.get("name") != "daily-ops" or not 1 <= len(metadata.get("description", "")) <= 1024:

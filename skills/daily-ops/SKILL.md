@@ -1,6 +1,6 @@
 ---
 name: daily-ops
-description: Make a realistic daily plan, capture and update personal tasks, help start a task, and review progress using a user-owned workspace. Use when someone wants to plan their day, fit work into available time, resume a task, or review what they completed.
+description: Make a realistic daily plan for work and life, capture personal tasks, review proposed changes, help start a task, and review progress using a user-owned workspace. Use when someone wants to plan their day, fit tasks into available time, adapt a plan, or review what they completed.
 ---
 
 # Daily Ops
@@ -29,11 +29,21 @@ Use stable IDs returned by the runtime. Do not resolve a bare ordinal against a 
 
 ## Plan a realistic day
 
-Run `python3 RUNNER --workspace WORKSPACE plan --date YYYY-MM-DD --minutes N --output reports/today.html` after the date and task budget are known. Open or link the returned report when the host supports it.
+Run `python3 RUNNER --workspace WORKSPACE plan --date YYYY-MM-DD --minutes N --output reports/today.html` after the date and task budget are known. Open or link the returned report when the host supports it. Its task worksheets distinguish unreviewed, kept, and proposed items. A viewed task or unchanged default is not accepted work.
 
 Lead with the first selected task and its reason. State planned minutes versus the supplied budget, then name consequential work that did not fit, is blocked, or is deferred. If an urgent task cannot fit, surface the tradeoff and ask whether to change the budget, estimate, or priority. Do not silently compress estimates, invent available time, or mark omitted work done.
 
 The runtime's ordering is deliberately simple and deterministic. A user may prefer a different order; help them correct task inputs and explain the effect. Do not call the result optimal or promise productivity gains.
+
+Before sharing the plan, save its canonical JSON with `plan --date YYYY-MM-DD --minutes N --json` and shell redirection to a file such as `WORKSPACE/reports/plan.json`. Run `lint-plan FILE` against that same workspace. This checks the JSON against current state, not the rendered HTML. Exit `0` means valid, possibly with advisories; `1` means a discrepancy; `2` means malformed or invalid input. Resolve discrepancies, report material advisories, and keep the actual validation result distinct from a user decision. A clean lint does not determine whether personal content is appropriate to share.
+
+## Review a report proposal
+
+The report's edits last only for the page session. There is no autosave or task-state write. Tell the user to download `changes.json` and `review.md` before closing or reloading if they want to keep the proposal. Read [change exchange](references/changes.md) when handling either file.
+
+Use the current workspace and the proposal's original base revision. Run `preview FILE --output reports/change.html --date YYYY-MM-DD --minutes N` to show the actual before and after plans, then open or link that preview. The date and budget must be explicit; use the user's established planning context. Explain the material effect, including urgent work that still does not fit.
+
+Apply only the actions the user requested or accepted with `apply FILE`. Downloading, retaining defaults, or opening a task does not grant that acceptance. If the user has already accepted the exact actions, do not ask again. An outdated revision requires a fresh state read and reconsidered proposal; never change the revision merely to bypass refusal. Replan after application and report what the runtime actually changed.
 
 ## Help start one task
 

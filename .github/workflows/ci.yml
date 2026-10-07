@@ -35,6 +35,8 @@ jobs:
         run: python tools/check.py
       - name: Run deterministic scenarios
         run: python tools/evaluate.py
+      - name: Rebuild fictional HTML walkthrough
+        run: python tools/build_examples.py
       - name: Build release archives
         run: python tools/package.py
       - name: Verify release contents and checksums

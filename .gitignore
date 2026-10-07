@@ -17,3 +17,4 @@ workspaces/
 test-results/
 playwright-report/
 .local-validation/
+site/examples/

@@ -13,14 +13,15 @@ import zipfile
 
 
 ROOT = Path(__file__).absolute().parents[1]
-VERSION = "1.0.0"
+VERSION = "1.1.0"
 SKILL_ROOT = Path("skills/daily-ops")
 SKILL_FILES = (
     "SKILL.md", "agents/openai.yaml", "references/changes.md",
     "references/manual-exchange.md", "scripts/run.py",
     "scripts/daily_ops/__init__.py", "scripts/daily_ops/__main__.py",
     "scripts/daily_ops/cli.py", "scripts/daily_ops/core.py",
-    "scripts/daily_ops/render.py",
+    "scripts/daily_ops/render.py", "scripts/daily_ops/plan_checks.py",
+    "scripts/daily_ops/report_assets.py",
 )
 ROOT_FILES = (
     "README.md", "LICENSE", "CHANGELOG.md", "CONTRIBUTING.md", "SECURITY.md",
@@ -30,6 +31,7 @@ ROOT_FILES = (
 DOC_FILES = (
     "docs/platform-support.md", "docs/chat-project.md", "docs/architecture.md",
     "docs/product.md", "docs/evidence.md", "docs/install.md", "docs/scenario-results.json",
+    "docs/round-two.md",
 )
 # Public source trees, with explicit file types. This never scans the repository root.
 SOURCE_TREES = {
@@ -110,6 +112,9 @@ def walk_public_tree(root: Path, relative: str, suffixes: set[str]) -> list[Path
         directory = pending.pop()
         for child in sorted(directory.iterdir()):
             if child.name.startswith(".") or child.name in IGNORED_NAMES:
+                continue
+            # Generated walkthroughs are rebuilt from the included fictional fixture.
+            if child.relative_to(root) == Path("site/examples"):
                 continue
             reject_symlinks(child)
             if child.is_dir():
