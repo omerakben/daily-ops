@@ -2,16 +2,16 @@
 
 **A realistic plan for the time you actually have.**
 
-Daily Ops turns a task list into a small, explainable plan. Tell it your available minutes. It shows what fits, what needs a decision, and what you are leaving for later. Use it with Claude, Codex, or ChatGPT, or run the local tool without an AI account.
+Daily Ops turns everyday work and life tasks into a small, explainable plan. Tell it your available minutes. It shows what fits, what needs a decision, and what you are leaving for later. Review a task, propose a change, and see its effect before saving it. Use it with Claude, Codex, or ChatGPT, or run the local tool without an AI account.
 
-[Try the interactive demo](https://omerakben.github.io/daily-ops/) · [Download a release](https://github.com/omerakben/daily-ops/releases) · [Installation](docs/install.md) · [Evidence](docs/evidence.md)
+[Try the interactive demo](https://omerakben.github.io/daily-ops/) · [Open a sample plan](https://omerakben.github.io/daily-ops/examples/plan.html) · [Download a release](https://github.com/omerakben/daily-ops/releases) · [Installation](docs/install.md) · [Evidence](docs/evidence.md)
 
 ## Why use it?
 
 - **See the tradeoff.** A 120-minute task cannot disappear into a 45-minute day. Urgent work that does not fit stays visible.
 - **Keep your decisions.** Stable task IDs and a portable workspace survive a new chat or a different assistant.
 - **Start something useful.** Ask your assistant to help with one task. Get an outline, a first draft, or a small next action.
-- **Change plans safely.** Preview batches, reject stale changes, and preserve the whole list when an import fails.
+- **Review before changing.** Keep a task as it is or propose an edit in the report. Export the proposal, preview its effect on the plan, then apply accepted changes. Unreviewed tasks stay unreviewed.
 - **Keep control of your data.** No telemetry, account connectors, background uploads, or required hosted service in the runtime.
 
 Daily Ops uses explicit estimates and a documented rule, not an opaque productivity score. It does not send messages, alter calendars, or claim to know how much free time you have.
@@ -24,12 +24,43 @@ Requires **Python 3.10+**. No runtime dependencies or API key.
 git clone https://github.com/omerakben/daily-ops.git
 cd daily-ops
 python3 skills/daily-ops/scripts/run.py --workspace ./workspace init
-python3 skills/daily-ops/scripts/run.py --workspace ./workspace add "Outline the presentation" --minutes 30 --priority high
-python3 skills/daily-ops/scripts/run.py --workspace ./workspace add "Organize reference notes" --minutes 20
+python3 skills/daily-ops/scripts/run.py --workspace ./workspace add "Outline tomorrow's presentation" --minutes 30 --priority high
+python3 skills/daily-ops/scripts/run.py --workspace ./workspace add "Sort the recycling" --minutes 20
 python3 skills/daily-ops/scripts/run.py --workspace ./workspace plan --date 2026-10-07 --minutes 40 --output reports/today.html
 ```
 
 The date above is an example; use the date you want to plan. On Windows, use `python` if `python3` is unavailable. Open `workspace/reports/today.html`: the 30-minute task fits, the 20-minute task waits, and both remain in your list. The budget is task time **after** meetings, breaks, and a reserve for interruptions.
+
+## Review, export, preview, apply
+
+The HTML report starts with decisions that need attention. Each visible task has a worksheet with an explicit review state: unreviewed, kept, or proposed. Opening a task or leaving its fields alone does not accept it. Report edits stay in that page session; there is no autosave, and the report cannot write to your task workspace. Download before closing or reloading the page.
+
+1. Review the tasks and choose which to keep or change.
+2. Download `changes.json` for the proposed actions and `review.md` for the readable review. Save `changes.json` inside your workspace, for example as `workspace/reports/changes.json`.
+3. Preview that proposal using the date and budget you want to compare:
+
+```sh
+python3 skills/daily-ops/scripts/run.py --workspace ./workspace preview ./workspace/reports/changes.json --output reports/change.html --date 2026-10-07 --minutes 40
+```
+
+Open `workspace/reports/change.html` to compare the actual before and after plans. The preview leaves task state unchanged. When the proposal matches the changes you have accepted, apply it:
+
+```sh
+python3 skills/daily-ops/scripts/run.py --workspace ./workspace apply ./workspace/reports/changes.json
+```
+
+An outdated proposal is refused if the workspace revision has changed. Regenerate the plan and review the proposal against current tasks; do not replace its revision just to force it through. [See a sample change preview](https://omerakben.github.io/daily-ops/examples/change.html) or read the [change exchange guide](skills/daily-ops/references/changes.md).
+
+Before sharing a generated plan, save its canonical JSON and check it against the current workspace. The first report command above creates the reports folder; the shell redirection below saves a separate plan file.
+
+```sh
+python3 skills/daily-ops/scripts/run.py --workspace ./workspace plan --date 2026-10-07 --minutes 40 --json > ./workspace/reports/plan.json
+python3 skills/daily-ops/scripts/run.py --workspace ./workspace lint-plan ./workspace/reports/plan.json
+```
+
+`lint-plan` checks JSON, not the HTML page. Exit status `0` means valid, possibly with advisories; `1` means a discrepancy with the current workspace; `2` means malformed or invalid input. Review advisories and confirm the report is appropriate to share. The check is read-only and does not approve a plan for you.
+
+For direct task updates and an end-of-day review:
 
 ```sh
 python3 skills/daily-ops/scripts/run.py --workspace ./workspace complete T0001
@@ -77,9 +108,12 @@ The planner uses a minute budget, not a calendar. It cannot tell whether three s
 python3 -m unittest discover -s tests -v
 python3 tools/check.py
 python3 tools/evaluate.py
+python3 tools/build_examples.py
 python3 tools/package.py
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development and [the product contract](docs/product.md) for scope. Feedback describing a real task, expected result, and observed friction is especially useful. Please use fictional or redacted data in public issues.
+
+The [v1.1 design notes](docs/round-two.md) explain the changes from Daily Ops v1 and credit the public html-plan project that informed the review flow. Its implementation was not copied.
 
 MIT licensed. Built for people who want a plan they can understand and revise.

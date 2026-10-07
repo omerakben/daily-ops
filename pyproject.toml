@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "daily-ops-assistant"
-version = "1.0.0"
+version = "1.1.0"
 description = "Make a realistic daily plan from your own tasks, with portable AI skills."
 readme = "README.md"
 requires-python = ">=3.10"

@@ -50,7 +50,7 @@ class PackageTests(unittest.TestCase):
             self.assertIn(hashlib.sha256(path.read_bytes()).hexdigest(), (first / "SHA256SUMS").read_text())
 
     def test_only_allowlisted_files_are_packaged(self):
-        for relative in ("AGENTS.md", ".env", "workspace/notes.md", "docs/private.md", "tools/__pycache__/cache.py", "skills/daily-ops/extra.py"):
+        for relative in ("AGENTS.md", ".env", "workspace/notes.md", "docs/private.md", "tools/__pycache__/cache.py", "skills/daily-ops/extra.py", "site/examples/generated.html"):
             path = self.root / relative
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("This file must stay outside release archives.")
@@ -58,7 +58,7 @@ class PackageTests(unittest.TestCase):
         for path in archives:
             with zipfile.ZipFile(path) as archive:
                 contents = "\n".join(archive.namelist())
-                for excluded in ("AGENTS.md", ".env", "workspace/", "private.md", "__pycache__", "extra.py"):
+                for excluded in ("AGENTS.md", ".env", "workspace/", "private.md", "__pycache__", "extra.py", "site/examples/"):
                     self.assertNotIn(excluded, contents)
         with zipfile.ZipFile(archives[0]) as archive:
             self.assertIn(".claude-plugin/plugin.json", archive.namelist())
@@ -67,7 +67,7 @@ class PackageTests(unittest.TestCase):
             self.assertIn("daily-ops/SKILL.md", archive.namelist())
             self.assertIn("daily-ops/LICENSE", archive.namelist())
         with zipfile.ZipFile(archives[2]) as archive:
-            self.assertIn("daily-ops-1.0.0/.github/workflows/ci.yml", archive.namelist())
+            self.assertIn(f"daily-ops-{package.VERSION}/.github/workflows/ci.yml", archive.namelist())
 
     def test_source_symlink_is_rejected_without_following(self):
         source = self.root / "skills/daily-ops/SKILL.md"
@@ -149,7 +149,7 @@ class PackageTests(unittest.TestCase):
     def test_repository_versions_and_frontmatter(self):
         self.assertGreater(check.validate_repository(self.root), 10)
         manifest = self.root / "plugin.json"
-        manifest.write_text(manifest.read_text().replace('"1.0.0"', '"9.0.0"'))
+        manifest.write_text(manifest.read_text().replace(f'"{package.VERSION}"', '"9.0.0"'))
         with self.assertRaises(package.PackageError):
             check.validate_repository(self.root)
         with self.assertRaises(package.PackageError):

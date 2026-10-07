@@ -7,6 +7,7 @@ import json
 import sys
 
 from .core import DailyOpsError, Workspace, load_change, make_plan, make_review
+from .plan_checks import MALFORMED_PLAN_CODES, check_plan, load_plan
 
 
 class Parser(argparse.ArgumentParser):
@@ -53,8 +54,13 @@ def _parser():
     review.add_argument("--output", help="Save an HTML report at this workspace-relative path")
     export = commands.add_parser("export")
     export.add_argument("--format", choices=("json", "markdown"), default="json")
-    for name in ("preview", "apply"):
-        commands.add_parser(name).add_argument("file")
+    for name in ("preview", "apply", "lint-plan"):
+        command = commands.add_parser(name)
+        command.add_argument("file")
+        if name == "preview":
+            command.add_argument("--output", help="Save an HTML preview at this workspace-relative path")
+            command.add_argument("--date", help="Plan comparison date; requires --minutes")
+            command.add_argument("--minutes", type=int, help="Plan comparison budget; requires --date")
     for subparser in commands.choices.values():
         subparser.add_argument("--json", action="store_true", default=argparse.SUPPRESS,
                                help="Emit machine-readable JSON")
@@ -89,8 +95,28 @@ def _dispatch(args):
             html = render_plan(report) if command == "plan" else render_review(report)
             report["report_path"] = workspace.write_report(args.output, html)
         return report
-    if command in ("preview", "apply"):
-        return getattr(workspace, command)(load_change(args.file))
+    if command == "lint-plan":
+        result = check_plan(workspace.load(), load_plan(args.file))
+        malformed = next((error for error in result["errors"]
+                          if error["code"] in MALFORMED_PLAN_CODES), None)
+        if malformed:
+            raise DailyOpsError("invalid_data", malformed["message"])
+        return result
+    if command == "preview":
+        if (args.date is None) != (args.minutes is None):
+            raise DailyOpsError("usage", "Preview --date and --minutes must be supplied together.")
+        if args.output and not args.output.lower().endswith(".html"):
+            raise DailyOpsError("usage", "Report output must use an .html filename inside the workspace.")
+        result = workspace.preview(load_change(args.file))
+        if args.date is not None:
+            result["before_plan"] = make_plan(result["before"], args.date, args.minutes)
+            result["after_plan"] = make_plan(result["after"], args.date, args.minutes)
+        if args.output:
+            from .render import render_preview
+            result["report_path"] = workspace.write_report(args.output, render_preview(result))
+        return result
+    if command == "apply":
+        return workspace.apply(load_change(args.file))
     action = {"action": command}
     for field in ("id", "title", "minutes", "priority", "due", "not_before", "notes", "blocked_by", "until", "reason"):
         value = getattr(args, field, None)
@@ -110,7 +136,7 @@ def main(argv=None):
         args = _parser().parse_args(argv)
         result = _dispatch(args)
         print(result if isinstance(result, str) else json.dumps(result, ensure_ascii=True, indent=2))
-        return 0
+        return 1 if args.command == "lint-plan" and not result["ok"] else 0
     except DailyOpsError as exc:
         print(json.dumps({"error": {"code": exc.code, "message": exc.message}}), file=sys.stderr)
         return 2

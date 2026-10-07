@@ -29,7 +29,7 @@ For one repository only, use its `.agents/skills` directory instead. On PowerShe
 
 The installer creates `daily-ops` inside that directory. It refuses to replace an existing installation. Restart or refresh the host if needed, then invoke `$daily-ops`. Do not install both a standalone skill and a plugin copy into the same host unless you deliberately want duplicate discovery entries.
 
-The release's `daily-ops-1.0.0-skill.zip` also contains the ready-to-copy `daily-ops/` skill directory. Copy the whole directory, including scripts and references, into the selected skills directory.
+The release's `daily-ops-1.1.0-skill.zip` also contains the ready-to-copy `daily-ops/` skill directory. Copy the whole directory, including scripts and references, into the selected skills directory.
 
 Codex CLI also supports native plugin installation. From the source checkout, the following registration and installation were verified with Codex CLI 0.159.3:
 

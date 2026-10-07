@@ -11,6 +11,7 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "skills" / "daily-ops" / "scripts"))
 from daily_ops.core import Workspace, make_plan  # noqa: E402
+from daily_ops import __version__  # noqa: E402
 
 
 def require(condition: bool, message: str) -> None:
@@ -68,7 +69,7 @@ def run_scenarios() -> dict:
                 "interruption_tested": "interruption_budget" in scenario,
             })
     return {
-        "schema_version": 1, "release": "1.0.0", "fixture_date": fixture["date"],
+        "schema_version": 1, "release": __version__, "fixture_date": fixture["date"],
         "evidence_type": "deterministic fictional acceptance scenarios",
         "claims": ["Plans respect supplied task capacity", "Unfinished work remains visible", "Planning preserves state", "Explicit completion persists across sessions"],
         "not_measured": ["time saved", "stress reduction", "human adoption", "native host skill discovery"],

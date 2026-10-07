@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-07",
+  "minutes": 45,
+  "tasks": [
+    {"action": "add", "title": "Submit the community workshop proposal", "minutes": 60, "priority": "high", "due": "2026-10-07"},
+    {"action": "add", "title": "Outline the welcome activity", "minutes": 25},
+    {"action": "add", "title": "Confirm the room arrangement", "minutes": 15, "due": "2026-10-07", "blocked_by": "Waiting for the venue reply"},
+    {"action": "add", "title": "Organize the reading notes", "minutes": 20}
+  ],
+  "proposal": {
+    "schema_version": 1,
+    "base_revision": 4,
+    "actions": [
+      {"action": "update", "id": "T0001", "minutes": 25},
+      {"action": "unblock", "id": "T0003"}
+    ]
+  }
+}

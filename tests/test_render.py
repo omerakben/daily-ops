@@ -49,7 +49,8 @@ class RendererTests(unittest.TestCase):
         parsed.feed(output)
         self.assertNotIn("script", parsed.tags)
         self.assertNotIn("img", parsed.tags)
-        self.assertEqual(parsed.links, ["#main"])
+        self.assertTrue(all(link.startswith("#") for link in parsed.links))
+        self.assertIn("#main", parsed.links)
         self.assertIn("&lt;img", output)
         self.assertNotIn(malicious, output)
 
