@@ -8,10 +8,10 @@ const SCENARIOS = {
     description: "A lab deadline, some reading, and more good intentions than minutes.",
     available: 100, reserve: 20,
     tasks: [
-      { id: "T001", title: "Finish lab write-up", minutes: 45, priority: "high", due: EXAMPLE_DATE },
-      { id: "T002", title: "Read the next chapter", minutes: 30, priority: "normal" },
-      { id: "T003", title: "Design the club poster", minutes: 30, priority: "low" },
-      { id: "T004", title: "Prepare for next week's exam", minutes: 120, priority: "high", due: "2026-10-14" },
+      { id: "T0001", title: "Finish lab write-up", minutes: 45, priority: "high", due: EXAMPLE_DATE },
+      { id: "T0002", title: "Read the next chapter", minutes: 30, priority: "normal" },
+      { id: "T0003", title: "Design the club poster", minutes: 30, priority: "low" },
+      { id: "T0004", title: "Prepare for next week's exam", minutes: 120, priority: "high", due: "2026-10-14" },
     ],
   },
   freelancer: {
@@ -19,11 +19,11 @@ const SCENARIOS = {
     description: "An invoice to send, a proposal to finish, and one task waiting on someone else.",
     available: 150, reserve: 30,
     tasks: [
-      { id: "T001", title: "Send the project invoice", minutes: 20, priority: "high", due: "2026-10-06" },
-      { id: "T002", title: "Finish the client proposal", minutes: 60, priority: "high", due: EXAMPLE_DATE },
-      { id: "T003", title: "Categorize this month's receipts", minutes: 25, priority: "low" },
-      { id: "T004", title: "Refresh portfolio case study", minutes: 90, priority: "normal" },
-      { id: "T005", title: "Prepare the final handover", minutes: 45, priority: "normal", blocked_by: "Waiting for client approval" },
+      { id: "T0001", title: "Send the project invoice", minutes: 20, priority: "high", due: "2026-10-06" },
+      { id: "T0002", title: "Finish the client proposal", minutes: 60, priority: "high", due: EXAMPLE_DATE },
+      { id: "T0003", title: "Categorize this month's receipts", minutes: 25, priority: "low" },
+      { id: "T0004", title: "Refresh portfolio case study", minutes: 90, priority: "normal" },
+      { id: "T0005", title: "Prepare the final handover", minutes: 45, priority: "normal", blocked_by: "Waiting for client approval" },
     ],
   },
   caregiver: {
@@ -31,9 +31,9 @@ const SCENARIOS = {
     description: "A few practical things to do, with room for the day to change. Try reducing the available time to 35.",
     available: 60, reserve: 20,
     tasks: [
-      { id: "T001", title: "Complete the school form", minutes: 15, priority: "high", due: EXAMPLE_DATE },
-      { id: "T002", title: "Pick up groceries", minutes: 25, priority: "normal" },
-      { id: "T003", title: "Sort the hallway closet", minutes: 60, priority: "low" },
+      { id: "T0001", title: "Complete the school form", minutes: 15, priority: "high", due: EXAMPLE_DATE },
+      { id: "T0002", title: "Pick up groceries", minutes: 25, priority: "normal" },
+      { id: "T0003", title: "Sort the hallway closet", minutes: 60, priority: "low" },
     ],
   },
   contributor: {
@@ -41,10 +41,10 @@ const SCENARIOS = {
     description: "One review, a useful documentation task, and an analysis that needs input first.",
     available: 120, reserve: 20,
     tasks: [
-      { id: "T001", title: "Review the project brief", minutes: 45, priority: "high", due: EXAMPLE_DATE },
-      { id: "T002", title: "Update the setup guide", minutes: 45, priority: "high" },
-      { id: "T003", title: "File the weekly expenses", minutes: 15, priority: "low" },
-      { id: "T004", title: "Analyze the research results", minutes: 120, priority: "normal", blocked_by: "Waiting for the source dataset" },
+      { id: "T0001", title: "Review the project brief", minutes: 45, priority: "high", due: EXAMPLE_DATE },
+      { id: "T0002", title: "Update the setup guide", minutes: 45, priority: "high" },
+      { id: "T0003", title: "File the weekly expenses", minutes: 15, priority: "low" },
+      { id: "T0004", title: "Analyze the research results", minutes: 120, priority: "normal", blocked_by: "Waiting for the source dataset" },
     ],
   },
 };
